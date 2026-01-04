@@ -1,0 +1,28 @@
+package main
+
+import (
+	"fmt"
+	"log"
+	"os"
+	"path/filepath"
+
+	_ "image/jpeg"
+
+	"github.com/afrisone/image-resizer/internal/filesystem"
+)
+
+func main() {
+	wd, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	img, err := filesystem.OpenImage(filepath.Join(wd, "src_images", "pic.jpg"))
+
+	if err != nil {
+		fmt.Printf("Error during import: %v\n", err)
+		os.Exit(1)
+	}
+
+	fmt.Printf("Image dimensions: %d x %d\n", img.Bounds().Dx(), img.Bounds().Dy())
+}
