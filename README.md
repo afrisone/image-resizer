@@ -1,2 +1,5 @@
-# image-resizer
+# image_resizer
+
 An image processing project to take in website images and resize them
+
+
