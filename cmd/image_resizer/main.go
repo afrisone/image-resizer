@@ -8,7 +8,7 @@ import (
 
 	_ "image/jpeg"
 
-	"github.com/afrisone/image-resizer/internal/filesystem"
+	"github.com/afrisone/image_resizer/internal/filesystem"
 )
 
 func main() {
