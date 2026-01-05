@@ -9,6 +9,7 @@ import (
 	_ "image/jpeg"
 
 	"github.com/afrisone/image_resizer/internal/filesystem"
+	"github.com/afrisone/image_resizer/internal/image_processor"
 )
 
 func main() {
@@ -25,4 +26,7 @@ func main() {
 	}
 
 	fmt.Printf("Image dimensions: %d x %d\n", img.Bounds().Dx(), img.Bounds().Dy())
+	resizedImage := image_processor.Resize(img)
+
+	fmt.Printf("Image dimensions: %d x %d\n", resizedImage.Bounds().Dx(), resizedImage.Bounds().Dy())
 }
