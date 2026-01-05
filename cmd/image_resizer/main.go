@@ -19,14 +19,11 @@ func main() {
 	}
 
 	img, err := filesystem.OpenImage(filepath.Join(wd, "src_images", "pic.jpg"))
-
 	if err != nil {
 		fmt.Printf("Error during import: %v\n", err)
 		os.Exit(1)
 	}
 
-	fmt.Printf("Image dimensions: %d x %d\n", img.Bounds().Dx(), img.Bounds().Dy())
-	resizedImage := image_processor.Resize(img)
+	image_processor.Resize(img)
 
-	fmt.Printf("Image dimensions: %d x %d\n", resizedImage.Bounds().Dx(), resizedImage.Bounds().Dy())
 }

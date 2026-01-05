@@ -2,7 +2,6 @@ package image_processor
 
 import (
 	"image"
-	"io"
 	"log"
 	"os"
 	"path/filepath"
@@ -10,35 +9,29 @@ import (
 	"github.com/sunshineplan/imgconv"
 )
 
-type imageProcessor interface {
-	Resize(srcImage io.Reader, width, height int) (io.Reader, error)
-	Process(src io.Reader, width, height int) (io.Reader, error)
-}
-
-type storer interface {
-	Store(image io.Reader) error
-}
-
-func Resize(srcImage image.Image) image.Image {
+func Resize(srcImage image.Image) error {
 	resizedImage := imgconv.Resize(srcImage, &imgconv.ResizeOption{Width: 200})
-	log.Println("Attempting to write new image....")
 
 	wd, err := os.Getwd()
-
 	if err != nil {
 		log.Fatalf("Failed get get working directory: %v\n", err)
+		return err
 	}
 
 	fp := filepath.Join(wd, "output_images", "pic.jpg")
-	file, err := os.Create(fp)
 
+	file, err := os.Create(fp)
 	if err != nil {
 		log.Fatalf("Failed to create file: %v\n", err)
+		return err
 	}
+
+	log.Println("Writing image to: ", fp)
 
 	if err := imgconv.Write(file, resizedImage, &imgconv.FormatOption{Format: imgconv.JPEG}); err != nil {
 		log.Fatalf("Failed to write image: %v\n", err)
+		return err
 	}
 
-	return resizedImage
+	return nil
 }
