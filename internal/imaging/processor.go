@@ -1,4 +1,4 @@
-package image_processor
+package imaging
 
 import (
 	"image"
@@ -14,7 +14,7 @@ func Resize(srcImage image.Image) error {
 
 	wd, err := os.Getwd()
 	if err != nil {
-		log.Fatalf("Failed get get working directory: %v\n", err)
+		log.Printf("Failed get get working directory: %v\n", err)
 		return err
 	}
 
@@ -22,14 +22,14 @@ func Resize(srcImage image.Image) error {
 
 	file, err := os.Create(fp)
 	if err != nil {
-		log.Fatalf("Failed to create file: %v\n", err)
+		log.Printf("Failed to create file: %v\n", err)
 		return err
 	}
 
 	log.Println("Writing image to: ", fp)
 
 	if err := imgconv.Write(file, resizedImage, &imgconv.FormatOption{Format: imgconv.JPEG}); err != nil {
-		log.Fatalf("Failed to write image: %v\n", err)
+		log.Printf("Failed to write image: %v\n", err)
 		return err
 	}
 
