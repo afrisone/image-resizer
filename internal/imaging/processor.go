@@ -26,7 +26,6 @@ func ProcessImage(p ImageProvider, src string, outputPath string) error {
 
 func resize(srcImage image.Image) image.Image {
 	return imgconv.Resize(srcImage, &imgconv.ResizeOption{Width: 200})
-
 }
 
 func store(img image.Image, outputPath string) error {
