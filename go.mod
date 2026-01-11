@@ -19,6 +19,7 @@ require (
 	github.com/sunshineplan/pdf v1.0.8 // indirect
 	golang.org/x/crypto v0.46.0 // indirect
 	golang.org/x/image v0.34.0 // indirect
+	golang.org/x/net v0.48.0 // indirect
 	golang.org/x/text v0.32.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

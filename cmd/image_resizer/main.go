@@ -1,29 +1,33 @@
 package main
 
 import (
-	"fmt"
+	"flag"
 	"log"
-	"os"
-	"path/filepath"
 
 	_ "image/jpeg"
 
-	"github.com/afrisone/image_resizer/internal/filesystem"
-	"github.com/afrisone/image_resizer/internal/image_processor"
+	"github.com/afrisone/image_resizer/internal/imaging"
 )
 
 func main() {
-	wd, err := os.Getwd()
-	if err != nil {
-		log.Fatal(err)
+	mode := flag.String("mode", "file", "the mode of image retrieval - ex: 'file' or 'url'")
+	src := flag.String("src", "", "the path to the images - ex: '~/Desktop/' or 'https://yoururlhere'")
+	out := flag.String("out", "output_images", "the path to write the resized images")
+	width := flag.Int("w", 200, "the width of the new image")
+
+	flag.Parse()
+
+	var provider imaging.ImageProvider
+
+	switch *mode {
+	case "url":
+		provider = imaging.WebScraperImageProvider{}
+	case "file":
+		provider = imaging.FileSystemProvider{}
+	default:
+		log.Fatal("unknown mode")
 	}
 
-	img, err := filesystem.OpenImage(filepath.Join(wd, "src_images", "pic.jpg"))
-	if err != nil {
-		fmt.Printf("Error during import: %v\n", err)
-		os.Exit(1)
-	}
-
-	image_processor.Resize(img)
+	imaging.ProcessImage(provider, *src, *out, *width)
 
 }
