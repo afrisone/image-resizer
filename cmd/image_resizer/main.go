@@ -13,6 +13,7 @@ func main() {
 	mode := flag.String("mode", "file", "the mode of image retrieval - ex: 'file' or 'url'")
 	src := flag.String("src", "", "the path to the images - ex: '~/Desktop/' or 'https://yoururlhere'")
 	out := flag.String("out", "output_images", "the path to write the resized images")
+	width := flag.Int("w", 200, "the width of the new image")
 
 	flag.Parse()
 
@@ -27,6 +28,6 @@ func main() {
 		log.Fatal("unknown mode")
 	}
 
-	imaging.ProcessImage(provider, *src, *out)
+	imaging.ProcessImage(provider, *src, *out, *width)
 
 }

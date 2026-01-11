@@ -9,7 +9,7 @@ import (
 	"github.com/sunshineplan/imgconv"
 )
 
-func ProcessImage(p ImageProvider, src string, outputPath string) error {
+func ProcessImage(p ImageProvider, src string, outputPath string, width int) error {
 	data, err := p.GetImage(src)
 
 	if err != nil {
@@ -19,13 +19,13 @@ func ProcessImage(p ImageProvider, src string, outputPath string) error {
 
 	log.Println("Successfully fetched image! Processing...")
 
-	img := resize(data)
+	img := resize(data, width)
 
 	return store(img, outputPath)
 }
 
-func resize(srcImage image.Image) image.Image {
-	return imgconv.Resize(srcImage, &imgconv.ResizeOption{Width: 200})
+func resize(srcImage image.Image, width int) image.Image {
+	return imgconv.Resize(srcImage, &imgconv.ResizeOption{Width: width})
 }
 
 func store(img image.Image, outputPath string) error {
