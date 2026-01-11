@@ -1,9 +1,8 @@
 package main
 
 import (
+	"flag"
 	"log"
-	"os"
-	"path/filepath"
 
 	_ "image/jpeg"
 
@@ -11,19 +10,23 @@ import (
 )
 
 func main() {
-	wd, err := os.Getwd()
-	if err != nil {
-		log.Printf("Error getting working directory %v\n", err)
-		os.Exit(1)
+	mode := flag.String("mode", "file", "the mode of image retrieval - ex: 'file' or 'url'")
+	src := flag.String("src", "", "the path to the images - ex: '~/Desktop/' or 'https://yoururlhere'")
+	out := flag.String("out", "output_images", "the path to write the resized images")
+
+	flag.Parse()
+
+	var provider imaging.ImageProvider
+
+	switch *mode {
+	case "url":
+		provider = imaging.WebScraperImageProvider{}
+	case "file":
+		provider = imaging.FileSystemProvider{}
+	default:
+		log.Fatal("unknown mode")
 	}
 
-	img, err := imaging.OpenImage(filepath.Join(wd, "src_images", "pic.jpg"))
-	if err != nil {
-		log.Printf("Error during import: %v\n", err)
-		os.Exit(1)
-	}
+	imaging.ProcessImage(provider, *src, *out)
 
-	if err := imaging.Resize(img); err != nil {
-		log.Printf("Failed to resize image %v\n", err)
-	}
 }

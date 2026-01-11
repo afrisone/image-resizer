@@ -6,8 +6,10 @@ import (
 	"os"
 )
 
-func OpenImage(filePath string) (image.Image, error) {
-	file, err := os.Open(filePath)
+type FileSystemProvider struct{}
+
+func (f FileSystemProvider) GetImage(srcPath string) (image.Image, error) {
+	file, err := os.Open(srcPath)
 	if err != nil {
 		log.Printf("Failed to open file %v\n", err)
 		return nil, err
